@@ -1,0 +1,110 @@
+class Contact:
+    def __init__(self, name, phone_number, email, address):
+        self.name = name
+        self.phone_number = phone_number
+        self.email = email
+        self.address = address
+
+class ContactBook:
+    def __init__(self):
+        self.contacts = []
+
+    def add_contact(self):
+        name = input("Enter name: ")
+        phone_number = input("Enter phone number: ")
+        email = input("Enter email: ")
+        address = input("Enter address: ")
+        contact = Contact(name, phone_number, email, address)
+        self.contacts.append(contact)
+        print("Contact added successfully.")
+
+    def view_contacts(self):
+        if not self.contacts:
+            print("No contacts available.")
+        else:
+            for i, contact in enumerate(self.contacts, start=1):
+                print(f"{i}. {contact.name} - {contact.phone_number}")
+
+    def search_contact(self):
+        keyword = input("Enter name or phone number to search: ")
+        found_contacts = [contact for contact in self.contacts if keyword.lower() in contact.name.lower() or keyword in contact.phone_number]
+        if found_contacts:
+            for i, contact in enumerate(found_contacts, start=1):
+                print(f"{i}. {contact.name} - {contact.phone_number}")
+        else:
+            print("No contacts found.")
+
+    def update_contact(self):
+        self.view_contacts()
+        try:
+            contact_number = int(input("Enter contact number to update: ")) - 1
+            if contact_number < len(self.contacts):
+                contact = self.contacts[contact_number]
+                contact.name = input(f"Enter new name ({contact.name}): ") or contact.name
+                contact.phone_number = input(f"Enter new phone number ({contact.phone_number}): ") or contact.phone_number
+                contact.email = input(f"Enter new email ({contact.email}): ") or contact.email
+                contact.address = input(f"Enter new address ({contact.address}): ") or contact.address
+                print("Contact updated successfully.")
+            else:
+                print("Invalid contact number.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    def delete_contact(self):
+        self.view_contacts()
+        try:
+            contact_number = int(input("Enter contact number to delete: ")) - 1
+            if contact_number < len(self.contacts):
+                del self.contacts[contact_number]
+                print("Contact deleted successfully.")
+            else:
+                print("Invalid contact number.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    def display_contact_details(self):
+        self.view_contacts()
+        try:
+            contact_number = int(input("Enter contact number to view details: ")) - 1
+            if contact_number < len(self.contacts):
+                contact = self.contacts[contact_number]
+                print(f"Name: {contact.name}")
+                print(f"Phone Number: {contact.phone_number}")
+                print(f"Email: {contact.email}")
+                print(f"Address: {contact.address}")
+            else:
+                print("Invalid contact number.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+def main():
+    contact_book = ContactBook()
+    while True:
+        print("\nContact Book Menu:")
+        print("1. Add Contact")
+        print("2. View Contacts")
+        print("3. Search Contact")
+        print("4. Update Contact")
+        print("5. Delete Contact")
+        print("6. View Contact Details")
+        print("7. Exit")
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            contact_book.add_contact()
+        elif choice == "2":
+            contact_book.view_contacts()
+        elif choice == "3":
+            contact_book.search_contact()
+        elif choice == "4":
+            contact_book.update_contact()
+        elif choice == "5":
+            contact_book.delete_contact()
+        elif choice == "6":
+            contact_book.display_contact_details()
+        elif choice == "7":
+            break
+        else:
+            print("Invalid choice. Please choose a valid option.")
+
+if __name__ == "__main__":
+    main()
